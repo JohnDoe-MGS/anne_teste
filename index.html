@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anne Lima - Home Decor</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Definindo a paleta de cores e fontes inspiradas na imagem */
+        :root {
+            --color-primary: #4A5548; /* Verde escuro */
+            --color-secondary: #F3ECE2; /* Bege claro/Creme */
+            --color-text-dark: #3a3a3a; /* Cinza escuro para texto */
+            --color-accent: #C7B09A; /* Tom de madeira/marrom claro */
+            --color-link-underline: #c5a35a; /* Amarelo escuro para sublinhado */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-secondary);
+            color: var(--color-text-dark);
+        }
+
+        h2, h3, .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Nova fonte para o título principal */
+        .font-title {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Cores personalizadas para o Tailwind */
+        .bg-primary { background-color: var(--color-primary); }
+        .bg-secondary { background-color: var(--color-secondary); }
+        .bg-accent { background-color: var(--color-accent); }
+        .text-primary { color: var(--color-primary); }
+        .text-secondary { color: var(--color-secondary); }
+        .text-accent { color: var(--color-accent); }
+        .border-primary { border-color: var(--color-primary); }
+        
+        .btn-checkout {
+            background-color: var(--color-accent);
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-checkout:hover {
+            background-color: #b39a82;
+        }
+        
+        /* Estilo para sublinhado dos links */
+        .link-underline {
+            text-decoration: none;
+            padding-bottom: 2px;
+            border-bottom: 2px solid var(--color-link-underline);
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .link-underline:hover {
+            border-color: var(--color-primary);
+        }
+
+        /* Estilos para transição de página */
+        .page-section {
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+        }
+        .page-hidden {
+            opacity: 0;
+            transform: scale(0.98);
+            pointer-events: none;
+            position: absolute;
+        }
+        .page-visible {
+            opacity: 1;
+            transform: scale(1);
+            position: relative;
+        }
+        
+        /* Estilo para setas de navegação desativadas */
+        .arrow-disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- CABEÇALHO E NAVEGAÇÃO -->
+    <header class="bg-primary text-white sticky top-0 z-40 shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" onclick="showPage('home')" class="font-title font-semibold text-xl sm:text-2xl md:text-3xl tracking-wide">ANNE LIMA HOME DECOR</a>
+            <nav class="hidden md:flex items-center space-x-6 text-sm">
+                <a href="#" onclick="showPage('sofas')" class="hover:text-accent transition">Sofás</a>
+                <a href="#" onclick="showPage('cadeiras')" class="hover:text-accent transition">Cadeiras</a>
+                <a href="#" onclick="showPage('mesas')" class="hover:text-accent transition">Mesas</a>
+                <a href="#" onclick="showPage('luminarias')" class="hover:text-accent transition">Luminárias</a>
+                <a href="#" onclick="showPage('estoque')" class="hover:text-accent transition">Estoque</a>
+            </nav>
+            <div class="flex items-center">
+                <div id="cart-icon" class="relative cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </div>
+            </div>
+        </div>
+        <!-- Navegação Mobile -->
+        <div class="md:hidden bg-primary/90">
+             <nav class="flex justify-around items-center text-xs py-2">
+                <a href="#" onclick="showPage('sofas')" class="hover:text-accent transition">Sofás</a>
+                <a href="#" onclick="showPage('cadeiras')" class="hover:text-accent transition">Cadeiras</a>
+                <a href="#" onclick="showPage('mesas')" class="hover:text-accent transition">Mesas</a>
+                <a href="#" onclick="showPage('luminarias')" class="hover:text-accent transition">Luminárias</a>
+                <a href="#" onclick="showPage('estoque')" class="hover:text-accent transition">Estoque</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CORPO DO SITE E PÁGINAS -->
+    <main class="container mx-auto px-6 py-12 relative min-h-screen">
+
+        <!-- Página: INAUGURAÇÃO -->
+        <section id="home" class="page-section w-full">
+            <div class="text-center p-8 bg-white rounded-lg shadow-xl">
+                <h2 class="text-4xl md:text-5xl font-serif text-primary mb-4">Um Convite Especial</h2>
+                <p class="max-w-3xl mx-auto text-gray-600 mb-6">
+                    Anne Lima Home Decor convida você para viver uma nova experiência em móveis e decoração. Venha celebrar com a gente a inauguração de um espaço criado com alma, propósito e muito bom gosto.
+                </p>
+                <div class="bg-primary text-white inline-block py-4 px-8 rounded-lg shadow-md mb-6">
+                    <h3 class="text-3xl font-serif tracking-widest">DIA 03 DE JULHO</h3>
+                    <p class="text-lg">Quinta-feira, às 9h</p>
+                </div>
+                <p class="text-lg text-gray-700">
+                    Curadoria exclusiva de móveis, objetos e sensações. Um ambiente que inspira, acolhe e transforma. Clique nos <i>links</i> abaixo para mais informações do nosso endereço e de nosso Instagram:
+                </p>
+                <div class="mt-8 space-y-4">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Av.+Goiás,+418+-+Centro,+Goianésia" target="_blank" class="text-primary hover:text-accent font-bold link-underline">
+                        Av. Goiás, 418 - Centro, Goianésia
+                    </a>
+                    <div class="mt-4 flex justify-center items-center">
+                        <a href="https://www.instagram.com/annelimahomedecor" target="_blank" class="inline-flex items-center text-primary hover:text-accent">
+                            <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"></path>
+                            </svg>
+                            <span class="font-semibold link-underline">@annelimahomedecor</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Página: SOFÁS -->
+        <section id="sofas" class="page-section w-full">
+             <div class="p-6 bg-white rounded-lg shadow-lg">
+                <h2 class="text-3xl font-serif text-primary border-b-2 border-accent pb-2 mb-8">Sofás</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1558211583-d26f610c1eb1?q=80&w=1964&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Imagem+Indisponível';" alt="Sofá Curvo Moderno" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6"><h3 class="text-xl font-serif">Sofá Curvo Moderno</h3><p class="text-lg text-primary font-semibold my-2">R$ 7.250,00</p><button onclick="addToCart('Sofá Curvo Moderno', 7250.00)" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition">Adicionar ao Carrinho</button></div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=2070&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Imagem+Indisponível';" alt="Sofá Retrátil Comfort" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6"><h3 class="text-xl font-serif">Sofá Retrátil Comfort</h3><p class="text-lg text-primary font-semibold my-2">R$ 5.500,00</p><button onclick="addToCart('Sofá Retrátil Comfort', 5500.00)" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition">Adicionar ao Carrinho</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Página: CADEIRAS -->
+        <section id="cadeiras" class="page-section w-full">
+            <div class="p-6 bg-white rounded-lg shadow-lg">
+                <h2 class="text-3xl font-serif text-primary border-b-2 border-accent pb-2 mb-8">Cadeiras</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?q=80&w=1974&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Imagem+Indisponível';" alt="Poltrona Costela" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6"><h3 class="text-xl font-serif">Poltrona Costela</h3><p class="text-lg text-primary font-semibold my-2">R$ 2.300,00</p><button onclick="addToCart('Poltrona Costela', 2300.00)" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition">Adicionar ao Carrinho</button></div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1580480055273-228ff5388ef8?q=80&w=1974&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Imagem+Indisponível';" alt="Cadeira Office Slim" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6"><h3 class="text-xl font-serif">Cadeira Office Slim</h3><p class="text-lg text-primary font-semibold my-2">R$ 1.550,00</p><button onclick="addToCart('Cadeira Office Slim', 1550.00)" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition">Adicionar ao Carrinho</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Página: MESAS -->
+        <section id="mesas" class="page-section w-full">
+            <div class="p-6 bg-white rounded-lg shadow-lg">
+                <h2 class="text-3xl font-serif text-primary border-b-2 border-accent pb-2 mb-8">Mesas</h2>
+                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1604578762246-41134e37f9cc?q=80&w=1974&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Imagem+Indisponível';" alt="Mesa de Jantar Orgânica" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6"><h3 class="text-xl font-serif">Mesa de Jantar Orgânica</h3><p class="text-lg text-primary font-semibold my-2">R$ 6.100,00</p><button onclick="addToCart('Mesa de Jantar Orgânica', 6100.00)" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition">Adicionar ao Carrinho</button></div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?q=80&w=1974&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Imagem+Indisponível';" alt="Aparador Minimalista" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6"><h3 class="text-xl font-serif">Aparador Minimalista</h3><p class="text-lg text-primary font-semibold my-2">R$ 3.200,00</p><button onclick="addToCart('Aparador Minimalista', 3200.00)" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition">Adicionar ao Carrinho</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+            
+        <!-- Página: LUMINÁRIAS -->
+        <section id="luminarias" class="page-section w-full">
+            <div class="p-6 bg-white rounded-lg shadow-lg">
+                <h2 class="text-3xl font-serif text-primary border-b-2 border-accent pb-2 mb-8">Luminárias</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1543198126-a8ad8e47fb22?q=80&w=1974&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Imagem+Indisponível';" alt="Luminária de Piso Arco" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6"><h3 class="text-xl font-serif">Luminária de Piso Arco</h3><p class="text-lg text-primary font-semibold my-2">R$ 1.790,00</p><button onclick="addToCart('Luminária de Piso Arco', 1790.00)" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition">Adicionar ao Carrinho</button></div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1616627561839-0743da8651a9?q=80&w=1964&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Imagem+Indisponível';" alt="Abajur com Base de Cerâmica" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6"><h3 class="text-xl font-serif">Abajur de Cerâmica</h3><p class="text-lg text-primary font-semibold my-2">R$ 650,00</p><button onclick="addToCart('Abajur de Cerâmica', 650.00)" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition">Adicionar ao Carrinho</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Página: ESTOQUE -->
+        <section id="estoque" class="page-section w-full">
+            <div class="p-6 bg-white rounded-lg shadow-lg">
+                <h2 class="text-3xl font-serif text-primary border-b-2 border-accent pb-2 mb-8">Controle de Estoque (Exemplo)</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200" id="stock-table">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produto</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantidade</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço de Custo</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço de Venda</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr><td class="px-6 py-4 whitespace-nowrap">Sofá Curvo Moderno</td><td class="px-6 py-4 whitespace-nowrap">8</td><td class="px-6 py-4 whitespace-nowrap">R$ 4.500,00</td><td class="px-6 py-4 whitespace-nowrap">R$ 7.250,00</td></tr>
+                            <tr class="bg-gray-50"><td class="px-6 py-4 whitespace-nowrap">Poltrona Costela</td><td class="px-6 py-4 whitespace-nowrap">20</td><td class="px-6 py-4 whitespace-nowrap">R$ 1.400,00</td><td class="px-6 py-4 whitespace-nowrap">R$ 2.300,00</td></tr>
+                            <tr><td class="px-6 py-4 whitespace-nowrap">Mesa de Jantar Orgânica</td><td class="px-6 py-4 whitespace-nowrap">10</td><td class="px-6 py-4 whitespace-nowrap">R$ 3.500,00</td><td class="px-6 py-4 whitespace-nowrap">R$ 6.100,00</td></tr>
+                            <tr class="bg-gray-50"><td class="px-6 py-4 whitespace-nowrap">Luminária de Piso Arco</td><td class="px-6 py-4 whitespace-nowrap">25</td><td class="px-6 py-4 whitespace-nowrap">R$ 900,00</td><td class="px-6 py-4 whitespace-nowrap">R$ 1.790,00</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Container para os gráficos -->
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-serif text-center text-primary mb-4">Itens em Estoque (Quantidade)</h3>
+                        <canvas id="quantityChart"></canvas>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-serif text-center text-primary mb-4">Valor em Estoque (R$)</h3>
+                        <canvas id="valueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- SETAS DE NAVEGAÇÃO -->
+    <button id="prev-page" class="fixed left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 bg-white/50 hover:bg-white/80 rounded-full p-2 transition">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    </button>
+    <button id="next-page" class="fixed right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 bg-white/50 hover:bg-white/80 rounded-full p-2 transition">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+    </button>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-primary text-secondary/70">
+        <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+            <div>
+                <h3 class="font-serif text-2xl text-secondary">Anne Lima Home Decor</h3>
+                <p class="text-sm">© 2024. Todos os direitos reservados.</p>
+            </div>
+            <div class="mt-6 md:mt-0">
+                <button id="login-btn" class="border border-secondary/70 py-2 px-4 rounded-lg hover:bg-secondary hover:text-primary transition">
+                    Login / Administrativo
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL FINALIZAR COMPRA (Oculto por padrão) -->
+    <div id="checkout-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <section class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
+             <button id="close-checkout-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            <h2 class="text-3xl font-serif text-primary border-b-2 border-accent pb-2 mb-8">Finalizar Compra</h2>
+            <div id="cart-items-container">
+                <p id="empty-cart-message" class="text-gray-500">Seu carrinho está vazio.</p>
+            </div>
+            <div id="cart-summary" class="hidden mt-6 border-t pt-6">
+                <div class="flex justify-between items-center text-xl font-bold">
+                    <span>Total:</span>
+                    <span id="cart-total" class="text-primary">R$ 0,00</span>
+                </div>
+                <div class="mt-8">
+                    <div class="border-b border-gray-200"><nav class="-mb-px flex space-x-6" aria-label="Tabs"><button id="pix-tab" onclick="showPayment('pix')" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-primary border-primary">PIX</button><button id="card-tab" onclick="showPayment('card')" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">Cartão de Crédito</button></nav></div>
+                    <div id="pix-content" class="mt-6 text-center"><p class="mb-4">Pague com PIX e ganhe 5% de desconto!</p><img src="https://placehold.co/250x250/ffffff/000000?text=QR+CODE+PIX" alt="QR Code PIX" class="mx-auto border rounded-lg"><button class="mt-4 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm hover:bg-gray-300">Copiar Código PIX</button></div>
+                    <div id="card-content" class="hidden mt-6"><div class="space-y-4"><div><label for="card-number" class="block text-sm font-medium text-gray-700">Número do Cartão</label><input type="text" id="card-number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"></div><div><label for="card-name" class="block text-sm font-medium text-gray-700">Nome no Cartão</label><input type="text" id="card-name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"></div><div class="flex space-x-4"><div class="flex-1"><label for="card-expiry" class="block text-sm font-medium text-gray-700">Validade (MM/AA)</label><input type="text" id="card-expiry" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"></div><div class="flex-1"><label for="card-cvc" class="block text-sm font-medium text-gray-700">CVC</label><input type="text" id="card-cvc" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"></div></div></div></div>
+                </div>
+                <button class="w-full mt-8 btn-checkout font-bold text-lg py-3 rounded-lg shadow-lg">Confirmar Pagamento</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- MODAL DE LOGIN (Oculto por padrão) -->
+    <div id="login-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md relative"><button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button><h2 class="text-2xl font-serif text-primary mb-6 text-center">Acesso Restrito</h2><form><div class="mb-4"><label for="email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"></div><div class="mb-6"><label for="password" class="block text-sm font-medium text-gray-700">Senha</label><input type="password" id="password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"></div><button type="submit" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-opacity-90 transition">Entrar</button></form></div>
+    </div>
+    
+    <script>
+        // --- LÓGICA DE NAVEGAÇÃO E GRÁFICOS ---
+        const pages = document.querySelectorAll('.page-section');
+        const pageOrder = ['home', 'sofas', 'cadeiras', 'mesas', 'luminarias', 'estoque'];
+        let currentPageIndex = 0;
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+        let quantityChartInstance = null;
+        let valueChartInstance = null;
+
+        function createStockCharts() {
+            if (quantityChartInstance) quantityChartInstance.destroy();
+            if (valueChartInstance) valueChartInstance.destroy();
+            
+            const stockTable = document.getElementById('stock-table').rows;
+            const labels = [];
+            const quantities = [];
+            const values = [];
+
+            for (let i = 1; i < stockTable.length; i++) {
+                const cells = stockTable[i].cells;
+                labels.push(cells[0].innerText);
+                quantities.push(parseInt(cells[1].innerText));
+                const salePrice = parseFloat(cells[3].innerText.replace('R$ ', '').replace(/\./g, '').replace(',', '.'));
+                values.push(parseInt(cells[1].innerText) * salePrice);
+            }
+            
+            const chartColors = ['#4A5548', '#C7B09A', '#a38a72', '#7d8a76', '#b5a18b'];
+
+            const qtyCtx = document.getElementById('quantityChart').getContext('2d');
+            quantityChartInstance = new Chart(qtyCtx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: 'Quantidade', data: quantities, backgroundColor: chartColors, borderColor: '#FFFFFF', borderWidth: 2 }]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'top' } } }
+            });
+
+            const valCtx = document.getElementById('valueChart').getContext('2d');
+            valueChartInstance = new Chart(valCtx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: 'Valor (R$)', data: values, backgroundColor: chartColors, borderColor: '#FFFFFF', borderWidth: 2 }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed)}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateArrowStates() {
+            prevButton.classList.toggle('arrow-disabled', currentPageIndex === 0);
+            nextButton.classList.toggle('arrow-disabled', currentPageIndex === pageOrder.length - 1);
+        }
+
+        function showPage(pageId) {
+            const targetIndex = pageOrder.indexOf(pageId);
+            if (targetIndex === -1) return;
+            currentPageIndex = targetIndex;
+            
+            pages.forEach((page, index) => {
+                const isVisible = index === currentPageIndex;
+                page.classList.toggle('page-visible', isVisible);
+                page.classList.toggle('hidden', !isVisible);
+                page.classList.toggle('page-hidden', !isVisible);
+                page.classList.toggle('absolute', !isVisible);
+            });
+            
+            if(pageId === 'estoque') {
+                createStockCharts();
+            }
+
+            updateArrowStates();
+            window.scrollTo(0, 0);
+        }
+
+        function navigate(direction) {
+            if ((direction === -1 && currentPageIndex > 0) || (direction === 1 && currentPageIndex < pageOrder.length - 1)) {
+                 currentPageIndex += direction;
+                 const newPageId = pageOrder[currentPageIndex];
+                 showPage(newPageId);
+            }
+        }
+
+        prevButton.addEventListener('click', () => navigate(-1));
+        nextButton.addEventListener('click', () => navigate(1));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home');
+        });
+        
+        // --- LÓGICA DO CARRINHO ---
+        let cart = [];
+        const cartCountEl = document.getElementById('cart-count');
+        const cartItemsContainerEl = document.getElementById('cart-items-container');
+        const cartSummaryEl = document.getElementById('cart-summary');
+        const cartTotalEl = document.getElementById('cart-total');
+
+        function addToCart(name, price) {
+            event.stopPropagation();
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCart();
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-24 right-6 bg-primary text-white py-2 px-4 rounded-lg shadow-lg animate-pulse z-50';
+            notification.innerText = `"${name}" adicionado ao carrinho!`;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+
+        function updateCart() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (cartCountEl) cartCountEl.innerText = totalItems;
+            const emptyCartMsgEl = document.getElementById('empty-cart-message');
+            if (cart.length === 0) {
+                if(emptyCartMsgEl) emptyCartMsgEl.style.display = 'block';
+                if(cartSummaryEl) cartSummaryEl.style.display = 'none';
+                if(cartItemsContainerEl) cartItemsContainerEl.innerHTML = '<p id="empty-cart-message" class="text-gray-500">Seu carrinho está vazio.</p>';
+            } else {
+                if(emptyCartMsgEl) emptyCartMsgEl.style.display = 'none';
+                if(cartSummaryEl) cartSummaryEl.style.display = 'block';
+                if(cartItemsContainerEl) {
+                    cartItemsContainerEl.innerHTML = '';
+                    cart.forEach((item, index) => {
+                        const itemEl = document.createElement('div');
+                        itemEl.className = 'flex justify-between items-center py-4 border-b';
+                        itemEl.innerHTML = `<div><p class="font-serif">${item.name}</p><p class="text-sm text-gray-600">Qtd: ${item.quantity}</p></div><div class="text-right"><p class="font-semibold">R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</p><button onclick="removeFromCart(${index})" class="text-xs text-red-500 hover:underline">Remover</button></div>`;
+                        cartItemsContainerEl.appendChild(itemEl);
+                    });
+                }
+            }
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            if (cartTotalEl) cartTotalEl.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+        
+        function removeFromCart(index) {
+            event.stopPropagation();
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // --- LÓGICA DOS MODAIS ---
+        const loginModal = document.getElementById('login-modal');
+        const loginBtn = document.getElementById('login-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const checkoutModal = document.getElementById('checkout-modal');
+        const cartIcon = document.getElementById('cart-icon');
+        const closeCheckoutBtn = document.getElementById('close-checkout-btn');
+
+        if(loginBtn) loginBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
+        if(closeModalBtn) closeModalBtn.addEventListener('click', () => loginModal.classList.add('hidden'));
+        if(loginModal) loginModal.addEventListener('click', (e) => { if(e.target === loginModal) loginModal.classList.add('hidden'); });
+
+        const openCheckout = () => checkoutModal.classList.remove('hidden');
+        const closeCheckout = () => checkoutModal.classList.add('hidden');
+
+        if(cartIcon) cartIcon.addEventListener('click', openCheckout);
+        if(closeCheckoutBtn) closeCheckoutBtn.addEventListener('click', closeCheckout);
+        if(checkoutModal) checkoutModal.addEventListener('click', (e) => { if(e.target === checkoutModal) closeCheckout(); });
+        
+        // --- LÓGICA ABAS DE PAGAMENTO ---
+        const pixTab = document.getElementById('pix-tab');
+        const cardTab = document.getElementById('card-tab');
+        const pixContent = document.getElementById('pix-content');
+        const cardContent = document.getElementById('card-content');
+
+        function showPayment(method) {
+            if (method === 'pix') {
+                pixContent.style.display = 'block'; cardContent.style.display = 'none';
+                pixTab.classList.add('text-primary', 'border-primary');
+                pixTab.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                cardTab.classList.add('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                cardTab.classList.remove('text-primary', 'border-primary');
+            } else {
+                pixContent.style.display = 'none'; cardContent.style.display = 'block';
+                cardTab.classList.add('text-primary', 'border-primary');
+                cardTab.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                pixTab.classList.add('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                pixTab.classList.remove('text-primary', 'border-primary');
+            }
+        }
+
+        // Inicializa o carrinho
+        updateCart();
+    
+    </script>
+
+</body>
+
+</html>
